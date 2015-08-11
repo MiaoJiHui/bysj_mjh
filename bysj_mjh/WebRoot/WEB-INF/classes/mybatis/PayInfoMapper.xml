@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="PayInfoMapper">
+   <resultMap id="pay_info" class="com.bysj.jxc.purchase.model.PayInfo">
+        <result property="id" column="id"></result>
+		<result property="supplier_id" column="supplier_id"></result>
+		<result property="supplier_name" column="supplier_name"></result>
+		<result property="pay_type" column="pay_type"></result>
+		<result property="pay_id" column="pay_id"></result>
+		<result property="prepay_money" column="prepay_money"></result>
+		<result property="sum_money" column="sum_money"></result>
+		<result property="pay_state" column="pay_state"></result>
+		<result property="update_by" column="update_by"></result>
+		<result property="remark" column="remark"></result>
+   </resultMap>
+
+   <select id="listPd" resultMap="pay_info">
+        select 
+        id,supplier_id,supplier_name,
+        pay_type,pay_id,prepay_money,sum_money,pay_state,update_by,remark
+        from pay_info
+       <dynamic prepend="where">
+			<isNotEmpty prepend="AND" property="pay_state">
+				pay_state = #pay_state#
+			</isNotEmpty>
+		</dynamic>
+   </select>
+   <insert id="insert" >
+       insert into pay_info
+       (
+        supplier_id,supplier_name,
+        pay_type,pay_id,prepay_money,sum_money,pay_state,update_by,remark
+       )
+       values
+       (
+       #supplier_id#,
+       #supplier_name#,
+       #pay_type#,
+       #pay_id#,
+       #prepay_money#,
+       #sum_money#,
+       #pay_state#,
+       #update_by#,
+       #remark#
+       )
+   </insert>
+   <delete id="delete">
+      delete from pay_info
+      where id = #id#
+   </delete>
+   <update id="update">
+       update pay_info
+       set 
+       supplier_id= #supplier_id#,
+       supplier_name = #supplier_name#,
+       pay_type = #pay_type#,
+       pay_id = #pay_id#,
+       prepay_money = #prepay_money#,
+       sum_money = #sum_money#,
+       pay_state = #pay_state#,
+       update_by = #update_by#,
+       remark = #remark#
+       where id = #id#
+   </update>
+   <select id="listById" resultClass="com.bysj.util.pageData.PageData" >
+      select  
+        id,supplier_id,supplier_name,
+        pay_type,pay_id,prepay_money,sum_money,pay_state,remark
+        from pay_info
+      where id = #id#
+   </select>
+</sqlMap>

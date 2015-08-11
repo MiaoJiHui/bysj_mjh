@@ -1,0 +1,9 @@
+{
+	"statusCode":"200",
+	"message":"\u64cd\u4f5c\u6210\u529f\uff0c\u8bf7\u70b9\u51fb\u5173\u95ed",
+	"navTabId":"",
+	"rel":"",
+	"callbackType":"",
+	"forwardUrl":"",
+	"confirmMsg":""
+}

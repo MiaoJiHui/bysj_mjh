@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<HTML>
+ <HEAD>
+  <TITLE> ZTREE DEMO </TITLE>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="zTreeStyle/zTreeStyle.css" type="text/css">
+  <script type="text/javascript" src="jquery-1.4.4.js"></script>
+  <script type="text/javascript" src="jquery.ztree.core-3.5.js"></script>
+<!--
+  <script type="text/javascript" src="jquery.ztree.excheck-3.5.js"></script>
+  <script type="text/javascript" src="jquery.ztree.exedit-3.5.js"></script>
+-->
+  <SCRIPT type="text/javascript" >
+	var zTreeObj,
+	setting = {
+		view: {
+			selectedMulti: false
+		}
+	},
+	zTreeNodes = [
+		{"name":"网站导航", open:true, children: [
+			{ "name":"google", "url":"http://g.cn", "target":"_blank"},
+			{ "name":"baidu", "url":"http://baidu.com", "target":"_blank"},
+			{ "name":"sina", "url":"http://www.sina.com.cn", "target":"_blank"}
+			]
+		}
+	];
+
+	$(document).ready(function(){
+		zTreeObj = $.fn.zTree.init($("#tree"), setting, zTreeNodes);
+
+	});
+  </SCRIPT>
+ </HEAD>
+
+<BODY>
+<ul id="tree" class="ztree" style="width:230px; overflow:auto;"></ul>
+ </BODY>
+</HTML>

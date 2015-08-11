@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+ <sqlMap namespace="UserMapper">
+   <resultMap id="user" class="com.bysj.jxc.model.User">
+		<result property="id" column="id"></result>
+		<result property="username" column="username"></result>
+		<result property="password" column="password"></result>
+		<result property="limitUser" column="limitUser"></result>
+	</resultMap>
+	<select id="listPd" resultClass="com.bysj.util.pageData.PageData">
+	    select id,username,password,limitUser
+	    from user_login
+	    <dynamic prepend="where">
+	       <isNotEmpty prepend="AND" property="username">
+	            username like '%$username$%'
+	       </isNotEmpty>
+	    </dynamic>
+	    
+	</select>
+	<select id="listAll" resultMap="user">
+	   select *
+	   from user_login
+	   where username=#username# and password=#password#
+	</select>
+	<select id="findById" resultClass="com.bysj.util.pageData.PageData">
+	   select username,password,limitUser
+	   from user_login
+	   where id=#id#
+	</select>
+	<update id="update" >
+	   update user_login
+	   set password=#newPassword#
+	   where username=#username# and password=#oldPassword#
+	</update>
+	<update id="update2">
+	   update user_login
+	   set username=#username#,
+	   password=#password#,
+	   limitUser=#limitUser#
+	   where id=#id#
+	</update>
+	<insert id="insert">
+	    insert into user_login
+	    (username,password,limitUser)
+	    values(#username#,#password#,#limitUser#)
+	</insert>
+	<delete id="delete">
+	    delete from 
+	    user_login
+	    where id = #id#
+	</delete>
+ </sqlMap>

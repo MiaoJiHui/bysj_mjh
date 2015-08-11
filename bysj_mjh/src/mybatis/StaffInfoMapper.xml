@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="StaffInfoMapper">
+   <resultMap id="staff_info" class="com.bysj.jxc.basicInfo.model.StaffInfo">
+        <result property="id" column="id"></result>
+		<result property="staff_id" column="staff_id"></result>
+		<result property="staff_name" column="staff_name"></result>
+		<result property="vacation" column="vacation"></result>
+		<result property="sex" column="sex"></result>
+		<result property="section" column="section"></result>
+		<result property="phone" column="phone"></result>
+		<result property="email" column="email"></result>
+		<result property="home_address" column="home_address"></result>
+		<result property="remark" column="remark"></result>
+		
+   </resultMap>
+   <select id="listPd" resultMap="staff_info">
+        select 
+        id,staff_id,staff_name,vacation,
+        sex,section,phone,email,home_address,remark
+        from staff_info
+       <dynamic prepend="where">
+			<isNotNull prepend="AND" property="staff_id">
+				staff_info.staff_id like '%$staff_id$%'
+			</isNotNull>
+			<isNotNull prepend="AND" property="staff_name">
+				staff_info.staff_name like '%$staff_name$%'
+			</isNotNull>
+			<isNotEmpty prepend="AND" property="vacation">
+				staff_info.vacation = #vacation#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sex">
+				staff_info.sex = #sex#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="phone">
+				staff_info.phone = #phone#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="email">
+				staff_info.email = #email#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="home_address">
+				staff_info.home_address = #home_address#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="remark">
+				staff_info.remark = #remark#
+			</isNotEmpty>
+			
+		</dynamic>
+   </select>
+   <insert id="insert">
+       insert into staff_info
+       (
+       staff_id,staff_name,vacation,
+        sex,section,phone,email,home_address,remark
+       )
+       values
+       (
+       #staff_id#,
+       #staff_name#,
+       #vacation#,
+       #sex#,
+       #section#,
+       #phone#,
+       #email#,
+       #home_address#,
+       #remark#
+       )
+   </insert>
+   <delete id="delete">
+      delete from staff_info
+      where staff_id = #staff_id#
+   </delete>
+   <update id="update">
+       update staff_info
+       set staff_name = #staff_name#,
+       vacation = #vacation#,
+       sex = #sex#,
+       section = #section#,
+       phone = #phone#,
+       email = #email#,
+       home_address = #home_address#,
+       remark = #remark#
+       where staff_id = #staff_id#
+   </update>
+   <select id="listById" resultClass="com.bysj.util.pageData.PageData" >
+      select  id,
+      staff_id,
+      staff_name,
+      vacation,
+      sex,
+      section,
+      phone,
+      email,home_address,
+      remark
+      from staff_info
+      where staff_id = #staff_id#
+   </select>
+</sqlMap>

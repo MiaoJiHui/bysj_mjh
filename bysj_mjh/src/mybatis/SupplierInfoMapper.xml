@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="SupplierInfoMapper">
+   <resultMap id="supplier_info" class="com.bysj.jxc.basicInfo.model.SupplierInfo">
+        <result property="id" column="id"></result>
+		<result property="supplier_id" column="supplier_id"></result>
+		<result property="supplier_name" column="supplier_name"></result>
+		<result property="supplier_city" column="supplier_city"></result>
+		<result property="address" column="address"></result>
+		<result property="linkman" column="linkman"></result>
+		<result property="phone" column="phone"></result>
+		<result property="email" column="email"></result>
+		<result property="fax" column="fax"></result>
+		<result property="remark" column="remark"></result>
+		
+   </resultMap>
+   <select id="listPd" resultMap="supplier_info">
+        select 
+        id,supplier_id,supplier_name,supplier_city,
+        address,linkman,phone,email,fax,remark
+        from supplier_info
+       <dynamic prepend="where">
+			<isNotNull prepend="AND" property="supplier_id">
+				supplier_info.supplier_id like '%$supplier_id$%'
+			</isNotNull>
+			<isNotNull prepend="AND" property	="supplier_name">
+				supplier_info.supplier_name like '%$supplier_name$%'
+			</isNotNull>
+			<isNotEmpty prepend="AND" property="supplier_city">
+				supplier_info.supplier_city = #supplier_city#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="address">
+				supplier_info.address = #address#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="phone">
+				supplier_info.phone = #phone#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="email">
+				supplier_info.email = #email#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fax">
+				supplier_info.fax = #fax#
+			</isNotEmpty>
+			
+		</dynamic>
+   </select>
+   <insert id="insert">
+       insert into supplier_info
+       (
+        supplier_id,
+        supplier_name,
+        supplier_city,
+        address,
+        linkman,
+        phone,
+        email,
+        fax,
+        remark
+       )
+       values
+       (
+       #supplier_id#,
+       #supplier_name#,
+       #supplier_city#,
+       #address#,
+       #linkman#,
+       #phone#,
+       #email#,
+       #fax#,
+       #remark#
+       )
+   </insert>
+   <delete id="delete">
+      delete from supplier_info
+      where supplier_id = #supplier_id#
+   </delete>
+   <update id="update">
+       update supplier_info
+       set supplier_name = #supplier_name#,
+       supplier_city = #supplier_city#,
+       address = #address#,
+       linkman = #linkman#,
+       phone = #phone#,
+       email = #email#,
+       fax = #fax#,
+       remark = #remark#
+       where supplier_id = #supplier_id#
+   </update>
+   <select id="listById" resultClass="com.bysj.util.pageData.PageData" >
+      select  id,
+      supplier_id,
+      supplier_name,
+      supplier_city,
+      address,
+      linkman,
+      phone,
+      email,fax,
+      remark
+      from supplier_info
+      where supplier_id = #supplier_id#
+   </select>
+</sqlMap>

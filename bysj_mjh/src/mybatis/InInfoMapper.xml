@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="InInfoMapper">
+   <resultMap id="in_info" class="com.bysj.jxc.purchase.model.InInfo">
+        <result property="id" column="id"></result>
+		<result property="goods_id" column="goods_id"></result>
+		<result property="goods_name" column="goods_name"></result>
+		<result property="count" column="count"></result>
+		<result property="storage_id" column="storage_id"></result>
+		<result property="storage_address" column="storage_address"></result>
+		<result property="in_date" column="in_date"></result>
+		<result property="charge_man" column="charge_man"></result>
+		<result property="remark" column="remark"></result>
+		
+   </resultMap>
+   <select id="listPd" resultMap="in_info">
+        select 
+        id,goods_id,goods_name,
+        count,storage_id,storage_address,in_date,
+        charge_man,remark
+        from in_info
+       <dynamic prepend="where">
+			<isNotNull prepend="AND" property="goods_id">
+				goods_id like '%$goods_id$%'
+			</isNotNull>
+			<isNotNull prepend="AND" property	="goods_name">
+				goods_name like '%$goods_name$%'
+			</isNotNull>
+			<isNotEmpty prepend="AND" property="storage_id">
+				storage_id = #storage_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="in_date">
+				in_date = #in_date#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="goods_name">
+				goods_name = #goods_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="charge_man">
+				charge_man = #charge_man#
+			</isNotEmpty>
+			
+		</dynamic>
+   </select>
+   <insert id="insert" >
+       insert into in_info
+       (
+        goods_id,goods_name,
+        count,storage_id,storage_address,
+        in_date,charge_man,remark
+       )
+       values
+       (
+       #goods_id#,
+       #goods_name#,
+       #count#,
+       #storage_id#,
+       #storage_address#,
+       #in_date#,
+       #charge_man#,
+       #remark#
+       )
+   </insert>
+   <delete id="delete">
+      delete from in_info
+      where id = #id#
+   </delete>
+   <update id="update">
+       update in_info
+       set 
+       goods_id= #goods_id#,
+       goods_name = #goods_name#,
+       count = #count#,
+       storage_id = #storage_id#,
+       storage_address = #storage_address#,
+       in_date = #in_date#,
+       charge_man = #charge_man#,
+       remark = #remark#
+       where id = #id#
+   </update>
+   <select id="listById" resultClass="com.bysj.util.pageData.PageData" >
+      select  
+      id,goods_id,goods_name,
+        count,storage_id,storage_address,in_date,
+        charge_man,remark
+        from in_info
+      where id = #id#
+   </select>
+</sqlMap>

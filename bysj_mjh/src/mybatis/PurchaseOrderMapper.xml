@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="PurchaseOrderMapper">
+   <resultMap id="purchase_order" class="com.bysj.jxc.purchase.model.PurchaseOrder">
+        <result property="id" column="id"></result>
+		<result property="purchase_id" column="purchase_id"></result>
+		<result property="goods_id" column="goods_id"></result>
+		<result property="goods_name" column="goods_name"></result>
+		<result property="price" column="price"></result>
+		<result property="count" column="count"></result>
+		<result property="price_sum" column="price_sum"></result>
+		<result property="supplier_id" column="supplier_id"></result>
+		<result property="supplier_name" column="supplier_name"></result>
+		<result property="purchaser" column="purchaser"></result>
+		<result property="date" column="date"></result>
+		<result property="update_by" column="update_by"></result>
+		<result property="remark" column="remark"></result>
+		
+   </resultMap>
+   <select id="listPd" resultMap="purchase_order">
+        select 
+        id,purchase_id,goods_id,goods_name,
+        price,count,price_sum,supplier_id,supplier_name,
+        purchaser,date,update_by,remark
+        from purchase_order
+       <dynamic prepend="where">
+			<isNotNull prepend="AND" property="supplier_id">
+				purchase_order.supplier_id like '%$supplier_id$%'
+			</isNotNull>
+			<isNotNull prepend="AND" property	="supplier_name">
+				purchase_order.supplier_name like '%$supplier_name$%'
+			</isNotNull>
+			<isNotEmpty prepend="AND" property="purchase_id">
+				purchase_order.purchase_id = #purchase_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="goods_id">
+				purchase_order.goods_id = #goods_id#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="goods_name">
+				purchase_order.goods_name = #goods_name#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="date">
+				purchase_order.date = #date#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="price">
+				purchase_order.price = #price#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="count">
+				purchase_order.count = #count#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="price_sum">
+				purchase_order.price_sum = #price_sum#
+			</isNotEmpty>
+		
+			
+		</dynamic>
+   </select>
+   <insert id="insert" >
+       insert into purchase_order
+       (
+        purchase_id,goods_id,goods_name,
+        price,count,price_sum,supplier_id,supplier_name,
+        purchaser,date,update_by,remark
+       )
+       values
+       (
+       #purchase_id#,
+       #goods_id#,
+       #goods_name#,
+       #price#,
+       #count#,
+       #price_sum#,
+       #supplier_id#,
+       #supplier_name#,
+       #purchaser#,
+       #date#,
+       #update_by#,
+       #remark#
+       )
+   </insert>
+   <delete id="delete">
+      delete from purchase_order
+      where purchase_id = #purchase_id#
+   </delete>
+   <update id="update">
+       update purchase_order
+       set 
+       goods_id= #goods_id#,
+       goods_name = #goods_name#,
+       price = #price#,
+       count = #count#,
+       price_sum = #price_sum#,
+       supplier_id = #supplier_id#,
+       supplier_name = #supplier_name#,
+       purchaser = #purchaser#,
+       update_by = #update_by#,
+       remark = #remark#
+       where purchase_id = #purchase_id#
+   </update>
+   <select id="listById" resultClass="com.bysj.util.pageData.PageData" >
+      select  
+      id,purchase_id,goods_id,goods_name,
+      price,count,price_sum,supplier_id,supplier_name,
+      purchaser,date,remark
+      from purchase_order
+      where purchase_id = #purchase_id#
+   </select>
+</sqlMap>

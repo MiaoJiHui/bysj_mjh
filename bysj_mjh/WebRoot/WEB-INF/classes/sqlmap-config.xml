@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig  PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+    <settings cacheModelsEnabled="true" enhancementEnabled="true"
+        lazyLoadingEnabled="true" errorTracingEnabled="true" maxRequests="128"
+        maxSessions="64" maxTransactions="16" useStatementNamespaces="true" />
+	<sqlMap resource="mybatis/UserMapper.xml" />
+	<sqlMap resource="mybatis/GoodsInfoMapper.xml" />
+	<sqlMap resource="mybatis/SupplierInfoMapper.xml" />
+	<sqlMap resource="mybatis/StorageInfoMapper.xml" />
+	<sqlMap resource="mybatis/StaffInfoMapper.xml" />
+	<sqlMap resource="mybatis/PurchaseOrderMapper.xml" />
+	<sqlMap resource="mybatis/InInfoMapper.xml" />
+	<sqlMap resource="mybatis/PayInfoMapper.xml" />
+	<sqlMap resource="mybatis/OutInfoMapper.xml" />
+	<sqlMap resource="mybatis/StockInfoMapper.xml" />
+</sqlMapConfig>
+
+

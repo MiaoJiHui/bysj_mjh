@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="GoodsInfoMapper">
+	<resultMap id="goods_info" class="com.bysj.jxc.basicInfo.model.GoodsInfo">
+		<result property="id" column="id"></result>
+		<result property="goods_id" column="goods_id"></result>
+		<result property="goods_name" column="goods_name"></result>
+		<result property="goods_type" column="goods_type"></result>
+		<result property="goods_scale" column="goods_scale"></result>
+		<result property="goods_supplier" column="goods_supplier"></result>
+		<result property="goods_unit" column="goods_unit"></result>
+		<result property="price" column="price"></result>
+		<result property="count" column="count"></result>
+		<result property="storage" column="storage"></result>
+		<result property="in_date" column="in_date"></result>
+		<result property="remark" column="remark"></result>
+		<result property="update_by" column="update_by"></result>
+		<!-- <result property="expend_field" column="expend_field"></result> -->
+	</resultMap>
+	<select id="listPd" resultMap="goods_info" >
+		select id,
+		goods_id,
+		goods_name,
+		goods_type,
+		goods_scale,
+		goods_unit,
+		count,
+		goods_supplier,
+		price,
+		storage,
+		in_date,
+		update_by,
+		remark
+		<!-- expend_field -->
+		from goods_info
+		<dynamic prepend="where">
+			<isNotNull prepend="AND" property="goods_id">
+				goods_info.goods_id like '%$goods_id$%'
+			</isNotNull>
+			<isNotNull prepend="AND" property	="goods_name">
+				goods_info.goods_name like '%$goods_name$%'
+			</isNotNull>
+			<isNotNull prepend="AND" property="goods_supplier">
+				goods_info.goods_supplier like '%$goods_supplier$%'
+			</isNotNull>
+			<isNotEmpty prepend="AND" property="goods_type">
+				goods_info.goods_type = #goods_type#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="in_date">
+				goods_info.in_date = #in_date#
+			</isNotEmpty>
+		    <isNotEmpty prepend="AND" property="price">
+			  <![CDATA[
+			      price >= #price#
+			      and price <= #price1#
+			      ]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="listGoodsType" resultClass="java.lang.String">
+	     select
+	     distinct
+		goods_type
+		from goods_info
+	</select>
+	<insert id="insert">
+	      insert into goods_info
+	      (goods_id,
+	       goods_name,
+		   goods_type,
+		   goods_scale,
+		   goods_unit,
+		   count,
+		   goods_supplier,
+		   price,
+		   storage,
+		   in_date,
+		   update_by,
+		   remark
+	      )
+	      values
+	      (#goods_id#,
+	       #goods_name#,
+	       #goods_type#,
+	       #goods_scale#,
+	       #goods_unit#,
+	       #count#,
+	       #goods_supplier#,
+	       #price#,
+	       #storage#,
+	       #in_date#,
+	       #update_by#,
+	       #remark#
+	      )
+	</insert>
+	<delete id="delete">
+	     delete from 
+	     goods_info
+	     where goods_id = #goods_id#
+	</delete>
+	
+	<select id="listById" resultClass="com.bysj.util.pageData.PageData" >
+		select id,
+		goods_id,
+		goods_name,
+		goods_type,
+		goods_scale,
+		goods_unit,
+		count,
+		goods_supplier,
+		price,
+		storage,
+		in_date,
+		remark
+		from goods_info
+		where goods_id = #goods_id#
+	</select>
+	<select id="listPageData" >
+		select 
+		distinct
+		goods_type
+		from goods_info
+	</select>
+	<update id="update" >
+	    update goods_info
+	    set
+	    goods_name = #goods_name#,
+	    goods_type = #goods_type#,
+	    goods_scale = #goods_scale#,
+	    goods_unit = #goods_unit#,
+	    count = #count#,
+	    goods_supplier = #goods_supplier#,
+	    price = #price#,
+	    storage = #storage#,
+	    in_date = #in_date#,
+	    update_by = #update_by#,
+	    remark = #remark#
+	    where goods_id = #goods_id#
+	</update>
+</sqlMap>

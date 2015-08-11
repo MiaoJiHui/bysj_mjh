@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="StockInfoMapper">
+   <resultMap id="stock_info" class="com.bysj.jxc.stock.model.StockInfo">
+        <result property="id" column="id"></result>
+		<result property="goods_id" column="goods_id"></result>
+		<result property="goods_name" column="goods_name"></result>
+		<result property="in_count" column="in_count"></result>
+		<result property="out_count" column="out_count"></result>
+		<result property="remain_count" column="remain_count"></result>
+		<result property="remark" column="remark"></result>
+		
+   </resultMap>
+   <select id="listPd" resultMap="stock_info">
+        select 
+        id,goods_id,goods_name,
+        in_count,out_count,remain_count,
+        remark
+        from stock_info
+       <dynamic prepend="where">
+			<isNotNull prepend="AND" property="goods_id">
+				goods_id like '%$goods_id$%'
+			</isNotNull>
+			<isNotNull prepend="AND" property="goods_name">
+				goods_name like '%$goods_name$%'
+			</isNotNull>
+		</dynamic>
+   </select>
+   <insert id="insert" >
+       insert into stock_info
+       (
+        goods_id,goods_name,
+        in_count,out_count,remain_count,
+        remark
+       )
+       values
+       (
+       #goods_id#,
+       #goods_name#,
+       #in_count#,
+       #out_count#,
+       #remain_count#,
+       #remark#
+       )
+   </insert>
+   <delete id="delete">
+      delete from stock_info
+      where id = #id#
+   </delete>
+   <update id="update">
+       update stock_info
+       set 
+       goods_id= #goods_id#,
+       goods_name = #goods_name#,
+       in_count = #in_count#,
+       out_count = #out_count#,
+       remain = #remain_count#,
+       remark = #remark#
+       where id = #id#
+   </update>
+   <select id="listById" resultClass="com.bysj.util.pageData.PageData" >
+      select  
+      id,goods_id,goods_name,
+        in_count,out_count,remain_count,
+        remark
+        from stock_info
+      where id = #id#
+   </select>
+</sqlMap>

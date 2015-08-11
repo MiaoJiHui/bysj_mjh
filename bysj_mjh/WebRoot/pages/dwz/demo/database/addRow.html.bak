@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>修改对象原型</title>
+    <script src="jquery-1.9.1.js" type="text/javascript"></script>
+    <script type="text/javascript">
+       $(function(){
+var count = $("table tr").size();
+$("table tr").each(function(){
+$(this).bind("click",function(){
+$("table tr:last-chlid").append("<tr id="+(count++)+"><td></td></tr>");
+})
+});
+})
+        }
+</script>
+ </head>
+ <body>
+ <input type="button" value="add" onclick="add()"/>
+ <table id="table" border="1" style="width:200px;height:30px;">
+<tr>
+<td>a</td><td>b</td><td>c</td><td>d</td>
+</tr>
+</table>
+ </body>
+</html>

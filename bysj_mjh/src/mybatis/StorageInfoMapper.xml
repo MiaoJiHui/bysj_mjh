@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" 
+"http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="StorageInfoMapper">
+   <resultMap id="storage_info" class="com.bysj.jxc.basicInfo.model.StorageInfo">
+        <result property="id" column="id"></result>
+		<result property="storage_id" column="storage_id"></result>
+		<result property="storage_name" column="storage_name"></result>
+		<result property="address" column="address"></result>
+		<result property="scale" column="scale"></result>
+		<result property="type" column="type"></result>
+		<result property="linkman" column="linkman"></result>
+		<result property="linkman_phone" column="linkman_phone"></result>
+		<result property="remark" column="remark"></result>
+		
+   </resultMap>
+   <select id="listPd" resultMap="storage_info">
+        select 
+        id,storage_id,storage_name,address,
+        scale,type,linkman,linkman_phone,remark
+        from storage_info
+       <dynamic prepend="where">
+			<isNotNull prepend="AND" property="storage_id">
+				storage_info.storage_id like '%$storage_id$%'
+			</isNotNull>
+			<isNotNull prepend="AND" property="storage_name">
+				storage_info.storage_name like '%$storage_name$%'
+			</isNotNull>
+			<isNotEmpty prepend="AND" property="type">
+				storage_info.type like '%$type$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="linkman">
+				storage_info.linkman like '%$linkman$%'
+			</isNotEmpty>
+		</dynamic>
+   </select>
+   <insert id="insert">
+       insert into storage_info
+       (storage_id,storage_name,address,scale,type,linkman,linkman_phone,remark)
+       values
+       (
+       #storage_id#,#storage_name#,#address#,#scale#,#type#,#linkman#,#linkman_phone#,#remark#
+       )
+   </insert>
+   <delete id="delete">
+      delete from storage_info
+      where storage_id = #storage_id#
+   </delete>
+   <select id="listById" resultClass="com.bysj.util.pageData.PageData" >
+        select 
+        id,
+        storage_id,storage_name,address,
+        scale,type,linkman,linkman_phone,remark
+        from storage_info
+        where storage_id = #storage_id#
+   </select>
+   <update id="update">
+       update storage_info
+       set
+       storage_name = #storage_name#,
+       address = #address#,
+       scale = #scale#,
+       type = #type#,
+       linkman = #linkman#,
+       linkman_phone = #linkman_phone#,
+       remark = #remark#
+       where storage_id = #storage_id#
+   </update>
+</sqlMap>
